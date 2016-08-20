@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cargocn.pm.dao.TimesheetMapper" >
+  <resultMap id="BaseResultMap" type="com.cargocn.pm.bean.Timesheet" >
+    <id column="sheet_id" property="sheetId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="project_id" property="projectId" jdbcType="BIGINT" />
+    <result column="ts_date" property="tsDate" jdbcType="DATE" />
+    <result column="ts_hour" property="tsHour" jdbcType="DECIMAL" />
+    <result column="ts_status" property="tsStatus" jdbcType="VARCHAR" />
+    <result column="ts_cost" property="tsCost" jdbcType="DECIMAL" />
+    <result column="operate_user" property="operateUser" jdbcType="VARCHAR" />
+    <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="VoResultMap" type="com.cargocn.pm.bean.VoTimesheet" extends="BaseResultMap" >
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" /> 
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sheet_id, user_id, project_id, ts_date, ts_hour, ts_status, ts_cost, operate_user, 
+    operate_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_timesheet
+    where sheet_id = #{sheetId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_pm_timesheet
+    where sheet_id = #{sheetId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cargocn.pm.bean.Timesheet" >
+    insert into t_pm_timesheet (sheet_id, user_id, project_id, 
+      ts_date, ts_hour, ts_status, 
+      ts_cost, operate_user, operate_time
+      )
+    values (#{sheetId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, 
+      #{tsDate,jdbcType=DATE}, #{tsHour,jdbcType=DECIMAL}, #{tsStatus,jdbcType=VARCHAR}, 
+      #{tsCost,jdbcType=DECIMAL}, #{operateUser,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cargocn.pm.bean.Timesheet" >
+    insert into t_pm_timesheet
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sheetId != null" >
+        sheet_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="tsDate != null" >
+        ts_date,
+      </if>
+      <if test="tsHour != null" >
+        ts_hour,
+      </if>
+      <if test="tsStatus != null" >
+        ts_status,
+      </if>
+      <if test="tsCost != null" >
+        ts_cost,
+      </if>
+      <if test="operateUser != null" >
+        operate_user,
+      </if>
+      <if test="operateTime != null" >
+        operate_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sheetId != null" >
+        #{sheetId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="tsDate != null" >
+        #{tsDate,jdbcType=DATE},
+      </if>
+      <if test="tsHour != null" >
+        #{tsHour,jdbcType=DECIMAL},
+      </if>
+      <if test="tsStatus != null" >
+        #{tsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="tsCost != null" >
+        #{tsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="operateUser != null" >
+        #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cargocn.pm.bean.Timesheet" >
+    update t_pm_timesheet
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="tsDate != null" >
+        ts_date = #{tsDate,jdbcType=DATE},
+      </if>
+      <if test="tsHour != null" >
+        ts_hour = #{tsHour,jdbcType=DECIMAL},
+      </if>
+      <if test="tsStatus != null" >
+        ts_status = #{tsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="tsCost != null" >
+        ts_cost = #{tsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="operateUser != null" >
+        operate_user = #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where sheet_id = #{sheetId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cargocn.pm.bean.Timesheet" >
+    update t_pm_timesheet
+    set user_id = #{userId,jdbcType=BIGINT},
+      project_id = #{projectId,jdbcType=BIGINT},
+      ts_date = #{tsDate,jdbcType=DATE},
+      ts_hour = #{tsHour,jdbcType=DECIMAL},
+      ts_status = #{tsStatus,jdbcType=VARCHAR},
+      ts_cost = #{tsCost,jdbcType=DECIMAL},
+      operate_user = #{operateUser,jdbcType=VARCHAR},
+      operate_time = #{operateTime,jdbcType=TIMESTAMP}
+    where sheet_id = #{sheetId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByUidPidDate" resultMap="BaseResultMap" parameterType="com.cargocn.pm.bean.Timesheet" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_timesheet
+    where user_id = #{userId,jdbcType=BIGINT}
+    and project_id = #{projectId,jdbcType=BIGINT}
+    and ts_date = #{tsDate,jdbcType=DATE}
+  </select>
+  
+  <update id="pendingTimesheet" parameterType="java.util.Map" >
+    update t_pm_timesheet
+    set ts_status = #{tsStatus,jdbcType=VARCHAR} 
+    where ts_date &gt;= #{beginDate,jdbcType=DATE}
+    and ts_date &lt;= #{endDate,jdbcType=DATE}
+    and user_id = #{userId,jdbcType=BIGINT}
+    and ts_status = #{tsStatusNew,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findApproveByUserId" resultMap="VoResultMap" parameterType="java.util.Map">
+    select 
+    t1.*,t2.project_name,t4.realname
+    from t_pm_timesheet t1,t_pm_project t2,t_sys_user t4
+    <where>
+    	t1.project_id = t2.project_id 
+    	and t1.user_id = t4.id
+    	<if test="_parameter  != null">
+    	and t2.pm_user_id = #{userId,jdbcType=BIGINT} 
+    	</if>
+    	and t1.ts_status = #{tsStatus,jdbcType=VARCHAR}
+    </where>
+    order by ts_date asc 
+  </select>
+  <select id="findAllByTsDate" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_timesheet
+    <where>
+    	ts_date &gt;= #{tsDate,jdbcType=DATE} 
+    	<if test="userId  != null">
+    	and user_id = #{userId,jdbcType=BIGINT}
+    	</if> 
+    </where> 
+  </select>
+  
+  
+  <select id="sumProjectCosts" resultType="java.math.BigDecimal" parameterType="java.util.Map">
+    select 
+    sum(ts_cost)
+    from t_pm_timesheet
+    where project_id = #{projectId,jdbcType=BIGINT}
+    	and ts_status = #{tsStatus,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cargocn.pm.dao.ExpensesTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.cargocn.pm.bean.ExpensesType" >
+    <id column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    type_id, type_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_expenses_type
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_pm_expenses_type
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cargocn.pm.bean.ExpensesType" >
+    insert into t_pm_expenses_type (type_id, type_name)
+    values (#{typeId,jdbcType=BIGINT}, #{typeName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cargocn.pm.bean.ExpensesType" >
+    insert into t_pm_expenses_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="typeName != null" >
+        type_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeId != null" >
+        #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cargocn.pm.bean.ExpensesType" >
+    update t_pm_expenses_type
+    <set >
+      <if test="typeName != null" >
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cargocn.pm.bean.ExpensesType" >
+    update t_pm_expenses_type
+    set type_name = #{typeName,jdbcType=VARCHAR}
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </update>
+  <select id="findAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_expenses_type 
+  </select>
+  
+  <select id="selectByTypeName" resultMap="BaseResultMap" parameterType="string">
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_expenses_type 
+    where type_name = #{typeName,jdbcType=VARCHAR}
+  </select>
+</mapper>

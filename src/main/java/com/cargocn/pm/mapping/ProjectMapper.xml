@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cargocn.pm.dao.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.cargocn.pm.bean.Project" >
+    <id column="project_id" property="projectId" jdbcType="BIGINT" />
+    <result column="pm_user_id" property="pmUserId" jdbcType="BIGINT" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="project_code" property="projectCode" jdbcType="VARCHAR" />
+    <result column="begin_date" property="beginDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="budget" property="budget" jdbcType="DECIMAL" />
+    <result column="operate_user" property="operateUser" jdbcType="VARCHAR" />
+    <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="VoResultMap" type="com.cargocn.pm.bean.VoProject" extends="BaseResultMap" >
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    project_id, pm_user_id, project_name, project_code, begin_date, end_date, budget, 
+    operate_user, operate_time, memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_project
+    where project_id = #{projectId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_pm_project
+    where project_id = #{projectId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cargocn.pm.bean.Project" >
+    insert into t_pm_project (project_id, pm_user_id, project_name, 
+      project_code, begin_date, end_date, 
+      budget, operate_user, operate_time, 
+      memo)
+    values (#{projectId,jdbcType=BIGINT}, #{pmUserId,jdbcType=BIGINT}, #{projectName,jdbcType=VARCHAR}, 
+      #{projectCode,jdbcType=VARCHAR}, #{beginDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{budget,jdbcType=DECIMAL}, #{operateUser,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, 
+      #{memo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cargocn.pm.bean.Project" >
+    insert into t_pm_project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="pmUserId != null" >
+        pm_user_id,
+      </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
+      <if test="projectCode != null" >
+        project_code,
+      </if>
+      <if test="beginDate != null" >
+        begin_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="budget != null" >
+        budget,
+      </if>
+      <if test="operateUser != null" >
+        operate_user,
+      </if>
+      <if test="operateTime != null" >
+        operate_time,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="pmUserId != null" >
+        #{pmUserId,jdbcType=BIGINT},
+      </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null" >
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="budget != null" >
+        #{budget,jdbcType=DECIMAL},
+      </if>
+      <if test="operateUser != null" >
+        #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cargocn.pm.bean.Project" >
+    update t_pm_project
+    <set >
+      <if test="pmUserId != null" >
+        pm_user_id = #{pmUserId,jdbcType=BIGINT},
+      </if>
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null" >
+        project_code = #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        begin_date = #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="budget != null" >
+        budget = #{budget,jdbcType=DECIMAL},
+      </if>
+      <if test="operateUser != null" >
+        operate_user = #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where project_id = #{projectId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cargocn.pm.bean.Project" >
+    update t_pm_project
+    set pm_user_id = #{pmUserId,jdbcType=BIGINT},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      project_code = #{projectCode,jdbcType=VARCHAR},
+      begin_date = #{beginDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      budget = #{budget,jdbcType=DECIMAL},
+      operate_user = #{operateUser,jdbcType=VARCHAR},
+      operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      memo = #{memo,jdbcType=VARCHAR}
+    where project_id = #{projectId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findByAdminId" resultMap="VoResultMap" parameterType="long">
+    select 
+    t1.*,t2.realname
+    from t_pm_project t1,t_sys_user t2
+    <where>
+    	t1.pm_user_id = t2.id
+    	<if test="_parameter  != null">
+    	and t1.pm_user_id = #{pmUserId,jdbcType=BIGINT} 
+    	</if>
+    </where>
+    order by project_code desc 
+  </select>
+  <select id="findUserProjects" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    t1.*
+    from t_pm_project t1,t_pm_project_user t2
+    where t2.user_id = #{userId,jdbcType=BIGINT} and t1.project_id = t2.project_id 
+  </select>
+  
+  <select id="selectByProjectCode" resultMap="BaseResultMap" parameterType="string">
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_project 
+    where project_code = #{projectCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByProjectName" resultMap="BaseResultMap" parameterType="string">
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_project 
+    where project_name = #{projectName,jdbcType=VARCHAR}
+  </select>
+</mapper>

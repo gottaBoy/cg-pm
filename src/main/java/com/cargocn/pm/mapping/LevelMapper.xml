@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cargocn.pm.dao.LevelMapper" >
+  <resultMap id="BaseResultMap" type="com.cargocn.pm.bean.Level" >
+    <id column="level_id" property="levelId" jdbcType="BIGINT" />
+    <result column="level_name" property="levelName" jdbcType="VARCHAR" />
+    <result column="level_code" property="levelCode" jdbcType="VARCHAR" />
+    <result column="operate_user" property="operateUser" jdbcType="VARCHAR" />
+    <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    level_id, level_name, level_code, operate_user, operate_time, memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_level
+    where level_id = #{levelId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_pm_level
+    where level_id = #{levelId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cargocn.pm.bean.Level" >
+    insert into t_pm_level (level_id, level_name, level_code, 
+      operate_user, operate_time, memo
+      )
+    values (#{levelId,jdbcType=BIGINT}, #{levelName,jdbcType=VARCHAR}, #{levelCode,jdbcType=VARCHAR}, 
+      #{operateUser,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cargocn.pm.bean.Level" >
+    insert into t_pm_level
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="levelId != null" >
+        level_id,
+      </if>
+      <if test="levelName != null" >
+        level_name,
+      </if>
+      <if test="levelCode != null" >
+        level_code,
+      </if>
+      <if test="operateUser != null" >
+        operate_user,
+      </if>
+      <if test="operateTime != null" >
+        operate_time,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="levelId != null" >
+        #{levelId,jdbcType=BIGINT},
+      </if>
+      <if test="levelName != null" >
+        #{levelName,jdbcType=VARCHAR},
+      </if>
+      <if test="levelCode != null" >
+        #{levelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operateUser != null" >
+        #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cargocn.pm.bean.Level" >
+    update t_pm_level
+    <set >
+      <if test="levelName != null" >
+        level_name = #{levelName,jdbcType=VARCHAR},
+      </if>
+      <if test="levelCode != null" >
+        level_code = #{levelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operateUser != null" >
+        operate_user = #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where level_id = #{levelId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cargocn.pm.bean.Level" >
+    update t_pm_level
+    set level_name = #{levelName,jdbcType=VARCHAR},
+      level_code = #{levelCode,jdbcType=VARCHAR},
+      operate_user = #{operateUser,jdbcType=VARCHAR},
+      operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      memo = #{memo,jdbcType=VARCHAR}
+    where level_id = #{levelId,jdbcType=BIGINT}
+  </update>
+  <select id="findAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_level 
+  </select>
+</mapper>

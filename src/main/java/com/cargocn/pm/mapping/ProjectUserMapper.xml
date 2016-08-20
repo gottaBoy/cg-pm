@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cargocn.pm.dao.ProjectUserMapper" >
+  <resultMap id="BaseResultMap" type="com.cargocn.pm.bean.ProjectUserKey" >
+    <id column="project_id" property="projectId" jdbcType="BIGINT" />
+    <id column="user_id" property="userId" jdbcType="BIGINT" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.cargocn.pm.bean.ProjectUserKey" >
+    delete from t_pm_project_user
+    where project_id = #{projectId,jdbcType=BIGINT}
+      and user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cargocn.pm.bean.ProjectUserKey" >
+    insert into t_pm_project_user (project_id, user_id)
+    values (#{projectId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cargocn.pm.bean.ProjectUserKey" >
+    insert into t_pm_project_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="findProjectUserIds" resultMap="BaseResultMap" parameterType="long">
+    select 
+    project_id,user_id
+    from t_pm_project_user 
+    <where>
+    	<if test="_parameter  != null">
+    	project_id = #{projectId,jdbcType=BIGINT} 
+    	</if>
+    </where>
+    order by user_id asc 
+  </select>
+  
+  <delete id="deleteByProjectId" parameterType="long" >
+    delete from t_pm_project_user
+    where project_id = #{projectId,jdbcType=BIGINT} 
+  </delete>
+</mapper>

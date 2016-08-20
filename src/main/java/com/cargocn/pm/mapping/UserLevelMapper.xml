@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cargocn.pm.dao.UserLevelMapper" >
+  <resultMap id="BaseResultMap" type="com.cargocn.pm.bean.UserLevel" >
+    <id column="user_level_id" property="userLevelId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="level_id" property="levelId" jdbcType="BIGINT" />
+    <result column="begin_date" property="beginDate" jdbcType="DATE" /> 
+    <result column="operate_user" property="operateUser" jdbcType="VARCHAR" />
+    <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithLevels" type="com.cargocn.pm.bean.VoUserLevel" extends="BaseResultMap" >
+    <result column="level_name" property="levelName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_level_id, user_id, level_id, begin_date, operate_user, operate_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_user_level
+    where user_level_id = #{userLevelId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_pm_user_level
+    where user_level_id = #{userLevelId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cargocn.pm.bean.UserLevel" >
+    insert into t_pm_user_level (user_level_id, user_id, level_id, 
+      begin_date, operate_user, 
+      operate_time)
+    values (#{userLevelId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{levelId,jdbcType=BIGINT}, 
+      #{beginDate,jdbcType=DATE}, #{operateUser,jdbcType=VARCHAR}, 
+      #{operateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cargocn.pm.bean.UserLevel" >
+    insert into t_pm_user_level
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userLevelId != null" >
+        user_level_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="levelId != null" >
+        level_id,
+      </if>
+      <if test="beginDate != null" >
+        begin_date,
+      </if> 
+      <if test="operateUser != null" >
+        operate_user,
+      </if>
+      <if test="operateTime != null" >
+        operate_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userLevelId != null" >
+        #{userLevelId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="levelId != null" >
+        #{levelId,jdbcType=BIGINT},
+      </if>
+      <if test="beginDate != null" >
+        #{beginDate,jdbcType=DATE},
+      </if> 
+      <if test="operateUser != null" >
+        #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cargocn.pm.bean.UserLevel" >
+    update t_pm_user_level
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="levelId != null" >
+        level_id = #{levelId,jdbcType=BIGINT},
+      </if>
+      <if test="beginDate != null" >
+        begin_date = #{beginDate,jdbcType=DATE},
+      </if> 
+      <if test="operateUser != null" >
+        operate_user = #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_level_id = #{userLevelId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cargocn.pm.bean.UserLevel" >
+    update t_pm_user_level
+    set user_id = #{userId,jdbcType=BIGINT},
+      level_id = #{levelId,jdbcType=BIGINT},
+      begin_date = #{beginDate,jdbcType=DATE}, 
+      operate_user = #{operateUser,jdbcType=VARCHAR},
+      operate_time = #{operateTime,jdbcType=TIMESTAMP}
+    where user_level_id = #{userLevelId,jdbcType=BIGINT}
+  </update>
+  <select id="findUserLevels" resultMap="ResultMapWithLevels" parameterType="java.lang.Long" >
+    select 
+    t1.*,t2.level_name
+    from t_pm_user_level t1,t_pm_level t2
+    where t1.user_id = #{userId,jdbcType=BIGINT} and t1.level_id = t2.level_id
+    order by t1.begin_date desc
+  </select>
+  <select id="findUserLevel" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_user_level
+    where user_id = #{userId,jdbcType=BIGINT}
+    and begin_date &lt;= #{beginDate,jdbcType=DATE}
+    order by begin_date desc
+  </select>
+</mapper>

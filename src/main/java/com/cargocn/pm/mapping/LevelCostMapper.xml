@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cargocn.pm.dao.LevelCostMapper" >
+  <resultMap id="BaseResultMap" type="com.cargocn.pm.bean.LevelCost" >
+    <id column="cost_id" property="costId" jdbcType="BIGINT" />
+    <result column="level_id" property="levelId" jdbcType="BIGINT" />
+    <result column="begin_date" property="beginDate" jdbcType="DATE" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="operate_user" property="operateUser" jdbcType="VARCHAR" />
+    <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cost_id, level_id, begin_date, cost, operate_user, operate_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_level_cost
+    where cost_id = #{costId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_pm_level_cost
+    where cost_id = #{costId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cargocn.pm.bean.LevelCost" >
+    insert into t_pm_level_cost (cost_id, level_id, begin_date, 
+      cost, operate_user, operate_time
+      )
+    values (#{costId,jdbcType=BIGINT}, #{levelId,jdbcType=BIGINT}, #{beginDate,jdbcType=DATE}, 
+      #{cost,jdbcType=DECIMAL}, #{operateUser,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cargocn.pm.bean.LevelCost" >
+    insert into t_pm_level_cost
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="costId != null" >
+        cost_id,
+      </if>
+      <if test="levelId != null" >
+        level_id,
+      </if>
+      <if test="beginDate != null" >
+        begin_date,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="operateUser != null" >
+        operate_user,
+      </if>
+      <if test="operateTime != null" >
+        operate_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="costId != null" >
+        #{costId,jdbcType=BIGINT},
+      </if>
+      <if test="levelId != null" >
+        #{levelId,jdbcType=BIGINT},
+      </if>
+      <if test="beginDate != null" >
+        #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="operateUser != null" >
+        #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cargocn.pm.bean.LevelCost" >
+    update t_pm_level_cost
+    <set >
+      <if test="levelId != null" >
+        level_id = #{levelId,jdbcType=BIGINT},
+      </if>
+      <if test="beginDate != null" >
+        begin_date = #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="operateUser != null" >
+        operate_user = #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where cost_id = #{costId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cargocn.pm.bean.LevelCost" >
+    update t_pm_level_cost
+    set level_id = #{levelId,jdbcType=BIGINT},
+      begin_date = #{beginDate,jdbcType=DATE},
+      cost = #{cost,jdbcType=DECIMAL},
+      operate_user = #{operateUser,jdbcType=VARCHAR},
+      operate_time = #{operateTime,jdbcType=TIMESTAMP}
+    where cost_id = #{costId,jdbcType=BIGINT}
+  </update>
+  <select id="findLevelCosts" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_level_cost
+    where level_id = #{levelId,jdbcType=BIGINT}
+    order by begin_date desc
+  </select>
+  <select id="findLevelCost" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pm_level_cost
+    where level_id = #{levelId,jdbcType=BIGINT}
+    and begin_date &lt;= #{beginDate,jdbcType=DATE}
+    order by begin_date desc
+  </select>
+</mapper>

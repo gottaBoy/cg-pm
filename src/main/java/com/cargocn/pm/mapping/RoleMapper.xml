@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cargocn.pm.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.cargocn.pm.bean.Role" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="role" property="role" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="resourceIdsStr" property="resourceIdsStr" jdbcType="VARCHAR" />
+    <result column="available" property="available" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, role, description, resource_ids as resourceIdsStr, available
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_role 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cargocn.pm.bean.Role" useGeneratedKeys="true" keyProperty="id">
+    insert into t_sys_role (role, description, 
+      resource_ids, available)
+    values (#{role,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{resourceIdsStr,jdbcType=VARCHAR}, #{available,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cargocn.pm.bean.Role" useGeneratedKeys="true" keyProperty="id">
+    insert into t_sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," > 
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="resourceIdsStr != null" >
+        resource_ids,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," > 
+      <if test="role != null" >
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceIdsStr != null" >
+        #{resourceIdsStr,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cargocn.pm.bean.Role" >
+    update t_sys_role
+    <set >
+      <if test="role != null" >
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceIdsStr != null" >
+        resource_ids = #{resourceIdsStr,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cargocn.pm.bean.Role" >
+    update t_sys_role
+    set role = #{role,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      resource_ids = #{resourceIdsStr,jdbcType=VARCHAR},
+      available = #{available,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
